@@ -49,7 +49,7 @@ class SignUpController:UIViewController {
     }()
     
     private let nameTextField: UITextField = {
-        return UITextField().textField(withPlaceholder: "Full Name", isSecureTextEntry: false)
+        return UITextField().textField(withPlaceholder: "Full Name", isSecureTextEntry: false )
     }()
     
     private let passwordTextField: UITextField = {
@@ -105,7 +105,7 @@ class SignUpController:UIViewController {
             if let error  = error {
                 print("Failed to register user with error \(error)")
                 return
-            }
+            } 
             
             guard let uid = result?.user.uid else { return }
             
@@ -113,7 +113,11 @@ class SignUpController:UIViewController {
                           "fullname":fullname,
                           "accountType": accountTypeIndex] as [String : Any]
             Database.database().reference().child("users").child("uid").updateChildValues(values) { (error, ref) in
-                print("Successfully registered user and saved data...")
+                
+                guard let controller = UIApplication.shared.keyWindow?.rootViewController as? HomeController else { return }
+                controller.configureUI()
+                self.dismiss(animated: true) { print("Succesfully logged user in...") }
+                
             }
             
         }
