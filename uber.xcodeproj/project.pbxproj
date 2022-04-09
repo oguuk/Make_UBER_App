@@ -24,6 +24,8 @@
 		96C90D1D27FF29240001607C /* FirebaseInstallations in Frameworks */ = {isa = PBXBuildFile; productRef = 96C90D1C27FF29240001607C /* FirebaseInstallations */; };
 		96C90D1F27FF29240001607C /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 96C90D1E27FF29240001607C /* FirebaseStorage */; };
 		96D3518827FFD55B0089AA90 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D3518727FFD55B0089AA90 /* HomeController.swift */; };
+		96DA1B4C2801C41A008776CD /* LocationInputActivationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DA1B4B2801C41A008776CD /* LocationInputActivationView.swift */; };
+		96DA1B4E2801D1D6008776CD /* LocationInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DA1B4D2801D1D6008776CD /* LocationInputView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +42,8 @@
 		96BE7CA627FC7E4900B79ABD /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		96C90D1127FF27530001607C /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		96D3518727FFD55B0089AA90 /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
+		96DA1B4B2801C41A008776CD /* LocationInputActivationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInputActivationView.swift; sourceTree = "<group>"; };
+		96DA1B4D2801D1D6008776CD /* LocationInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInputView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +127,8 @@
 			isa = PBXGroup;
 			children = (
 				96BD796027FDF2830090CE36 /* AuthButton.swift */,
+				96DA1B4B2801C41A008776CD /* LocationInputActivationView.swift */,
+				96DA1B4D2801D1D6008776CD /* LocationInputView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -220,9 +226,11 @@
 				96BD795F27FDDF9B0090CE36 /* SignUpController.swift in Sources */,
 				96BD796127FDF2830090CE36 /* AuthButton.swift in Sources */,
 				96D3518827FFD55B0089AA90 /* HomeController.swift in Sources */,
+				96DA1B4E2801D1D6008776CD /* LocationInputView.swift in Sources */,
 				96BE7CA327FC75BD00B79ABD /* LoginController.swift in Sources */,
 				96BE7C8A27FC757D00B79ABD /* AppDelegate.swift in Sources */,
 				96BE7C8C27FC757D00B79ABD /* SceneDelegate.swift in Sources */,
+				96DA1B4C2801C41A008776CD /* LocationInputActivationView.swift in Sources */,
 				96BE7CA727FC7E4900B79ABD /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

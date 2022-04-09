@@ -14,6 +14,9 @@ class HomeController: UIViewController {
     //MARK: - Properties
     private let mapView = MKMapView()
     private var locationManager = CLLocationManager()
+    
+    private let inputActivationView = LocationInputActivationView()
+    private let locationInputView = LocationInputView()
     //MARK: -Lifecycle
     
     override func viewDidLoad() {
@@ -47,52 +50,84 @@ class HomeController: UIViewController {
     
     
     func configureUI() {
+        configureMapView()
+        view.addSubview(inputActivationView)
+        inputActivationView.centerX(inView: view)
+        inputActivationView.setDimensions(height: 50, width: view.frame.width - 64)
+        inputActivationView.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 32)
+        inputActivationView.alpha = 0
+        inputActivationView.delegate = self
+        
+        UIView.animate(withDuration: 2) {
+            self.inputActivationView.alpha = 1
+        }
+    }
+    
+    func configureMapView() {
         view.addSubview(mapView)
         mapView.frame = view.frame
+        
+        mapView.showsUserLocation = true
+        mapView.userTrackingMode = .follow
+    }
+    
+    func configureLocationInputView() {
+        view.addSubview(locationInputView)
+        locationInputView.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor, height: 200)
+        locationInputView.alpha = 0
+        
+        UIView.animate(withDuration: 0.5) {
+            self.locationInputView.alpha = 1
+        } completion: { _ in
+            print("DEBUG: Present table view...")
+        }
+
     }
     
 }
 
 //MARK: - Location Services
-private extension HomeController {
+extension HomeController:CLLocationManagerDelegate {
     
     func enableLocationServices(_ manager: CLLocationManager) {
-        
+        locationManager.delegate = self
         switch manager.authorizationStatus {
-            
         case .notDetermined:
-            
             print("DEBUG: Not determined..")
-            
             manager.requestWhenInUseAuthorization()
-            
         case .restricted:
-            
             break
-            
         case .denied:
-            
             break
-            
         case .authorizedAlways:
-            
             print("DEBUG: Auth always..")
-            
+            locationManager.startUpdatingLocation() // 위치 updating ( Starts the generation of updates that report the user's current location )
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest // The best level of accuracy available
         case .authorizedWhenInUse:
-            
             print("DEBUG: Auth when in use..")
-            
+            locationManager.requestAlwaysAuthorization() //더 강한 사용권한 요청 (사용하지 않을 때도 위치접근을 묻는 것)
         @unknown default:
-            
             print("DEBUG: unknown default..")
-            
+
         }
         
     }
     
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .authorizedWhenInUse {
+                locationManager.requestAlwaysAuthorization()
+        }
+    }
+    
 }
 
-
+extension HomeController: LocationInputActivationViewDelegate {
+    func presentLocationInputView() {
+        
+    }
+    
+    
+}
 //        if #available(iOS 14, *) {
 //            authorizationStatus = manager.authorizationStatus
 //        } else {
