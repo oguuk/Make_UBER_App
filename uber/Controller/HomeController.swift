@@ -10,6 +10,8 @@ import Firebase
 import MapKit
 import CoreLocation
 
+ private let reuseIdentifier = "LocationCell"
+
 class HomeController: UIViewController {
     //MARK: - Properties
     private let mapView = MKMapView()
@@ -17,6 +19,10 @@ class HomeController: UIViewController {
     
     private let inputActivationView = LocationInputActivationView()
     private let locationInputView = LocationInputView()
+    private let tableView = UITableView()
+    
+    private final let locationInputViewHeight:CGFloat = 200
+    
     //MARK: -Lifecycle
     
     override func viewDidLoad() {
@@ -27,16 +33,16 @@ class HomeController: UIViewController {
     }
     //MARK: = API
     func checkIfUserIsLoggedIn() {
-        if Auth.auth().currentUser?.uid == nil {
-            DispatchQueue.main.async {
-                let nav = UINavigationController(rootViewController: LoginController())
-                nav.modalPresentationStyle = .fullScreen //or .overFullScreen for transparency
-                self.present(nav, animated: false)
-            } //mainthread로 이동, 여기서 문제 만약 이 view로 이동한 후 로그인을 성공한다면 아래 else 문으로 이동하는 것이 아니라 그게 끝이라서 if -> log in - > configure()를 실행할 순서가 필요
-        } else {
+//        if Auth.auth().currentUser?.uid == nil {
+//            DispatchQueue.main.async {
+//                let nav = UINavigationController(rootViewController: LoginController())
+//                nav.modalPresentationStyle = .fullScreen //or .overFullScreen for transparency
+//                self.present(nav, animated: false)
+//            } //mainthread로 이동, 여기서 문제 만약 이 view로 이동한 후 로그인을 성공한다면 아래 else 문으로 이동하는 것이 아니라 그게 끝이라서 if -> log in - > configure()를 실행할 순서가 필요
+//        } else {
             configureUI()
             enableLocationServices(locationManager)
-        }
+//        }
     }
     
     func signOut() {
@@ -61,6 +67,8 @@ class HomeController: UIViewController {
         UIView.animate(withDuration: 2) {
             self.inputActivationView.alpha = 1
         }
+        
+        configureTableView()
     }
     
     func configureMapView() {
@@ -72,6 +80,7 @@ class HomeController: UIViewController {
     }
     
     func configureLocationInputView() {
+        locationInputView.delegate = self
         view.addSubview(locationInputView)
         locationInputView.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor, height: 200)
         locationInputView.alpha = 0
@@ -79,11 +88,22 @@ class HomeController: UIViewController {
         UIView.animate(withDuration: 0.5) {
             self.locationInputView.alpha = 1
         } completion: { _ in
-            print("DEBUG: Present table view...")
+            UIView.animate(withDuration: 0.3, animations: {self.tableView.frame.origin.y = self.locationInputViewHeight})
         }
 
     }
-    
+    func configureTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        
+        tableView.register(LocationCell.self, forCellReuseIdentifier: reuseIdentifier)
+        tableView.rowHeight = 60
+        
+        let height = view.frame.height - locationInputViewHeight
+        tableView.frame = CGRect(x: 0, y: view.frame.height, width: view.frame.width, height: height)
+        
+        view.addSubview(tableView)
+    }
 }
 
 //MARK: - Location Services
@@ -121,13 +141,46 @@ extension HomeController:CLLocationManagerDelegate {
     
 }
 
+//MARK: -LocationInputActivationViewDelegate
+
 extension HomeController: LocationInputActivationViewDelegate {
     func presentLocationInputView() {
-        
+        inputActivationView.alpha = 0
+        configureLocationInputView()
     }
     
     
 }
+
+//MARK: - LocationInputViewDelegate
+
+extension HomeController:LocationInputViewDelegate {
+    func dismissLocationInputView() {
+        locationInputView.removeFromSuperview()
+        UIView.animate(withDuration: 0.3, animations: {
+            self.locationInputView.alpha = 0
+            self.tableView.frame.origin.y = self.view.frame.height
+        }) { _ in
+            UIView.animate(withDuration: 0.3, animations: {self.inputActivationView.alpha = 1 })
+        }
+
+    }
+    
+}
+
+extension HomeController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 10
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! LocationCell
+        
+        return cell
+    }
+    
+    
+}
+
 //        if #available(iOS 14, *) {
 //            authorizationStatus = manager.authorizationStatus
 //        } else {

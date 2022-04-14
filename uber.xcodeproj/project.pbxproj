@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		964C88532806AB6C00B94AEC /* LocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964C88522806AB6C00B94AEC /* LocationCell.swift */; };
 		96BD795F27FDDF9B0090CE36 /* SignUpController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BD795E27FDDF9B0090CE36 /* SignUpController.swift */; };
 		96BD796127FDF2830090CE36 /* AuthButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BD796027FDF2830090CE36 /* AuthButton.swift */; };
 		96BE7C8A27FC757D00B79ABD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BE7C8927FC757D00B79ABD /* AppDelegate.swift */; };
@@ -29,6 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		964C88522806AB6C00B94AEC /* LocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
 		96BD795E27FDDF9B0090CE36 /* SignUpController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpController.swift; sourceTree = "<group>"; };
 		96BD796027FDF2830090CE36 /* AuthButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthButton.swift; sourceTree = "<group>"; };
 		96BE7C8627FC757D00B79ABD /* uber.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = uber.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -129,6 +131,7 @@
 				96BD796027FDF2830090CE36 /* AuthButton.swift */,
 				96DA1B4B2801C41A008776CD /* LocationInputActivationView.swift */,
 				96DA1B4D2801D1D6008776CD /* LocationInputView.swift */,
+				964C88522806AB6C00B94AEC /* LocationCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -228,6 +231,7 @@
 				96D3518827FFD55B0089AA90 /* HomeController.swift in Sources */,
 				96DA1B4E2801D1D6008776CD /* LocationInputView.swift in Sources */,
 				96BE7CA327FC75BD00B79ABD /* LoginController.swift in Sources */,
+				964C88532806AB6C00B94AEC /* LocationCell.swift in Sources */,
 				96BE7C8A27FC757D00B79ABD /* AppDelegate.swift in Sources */,
 				96BE7C8C27FC757D00B79ABD /* SceneDelegate.swift in Sources */,
 				96DA1B4C2801C41A008776CD /* LocationInputActivationView.swift in Sources */,
