@@ -7,10 +7,14 @@
 
 import UIKit
 import Firebase
+import GeoFire
 
 class SignUpController:UIViewController {
     
     //MARK: - Properties
+    
+    private var location = LocationHandler.shared.locationManager.location
+    
     private let titleLabel:UILabel = {
         let label = UILabel()
         label.text = "UBER"
@@ -90,6 +94,8 @@ class SignUpController:UIViewController {
         super.viewDidLoad()
         configure()
         
+        print("DEBUG: Location is \(location)")
+        
     }
     
     //MARK: - Selector
@@ -112,14 +118,16 @@ class SignUpController:UIViewController {
             let values = ["email": email,
                           "fullname":fullname,
                           "accountType": accountTypeIndex] as [String : Any]
-            Database.database().reference().child("users").child("uid").updateChildValues(values) { (error, ref) in
-                
-                guard let controller = UIApplication.shared.keyWindow?.rootViewController as? HomeController else { return }
-                controller.configureUI()
-                self.dismiss(animated: true) { print("Succesfully logged user in...") }
-                
-            }
             
+            if accountTypeIndex == 1 {
+                let geofire = GeoFire(firebaseRef: REF_DRIVER_LOCATIONS)
+                guard let location = self.location else {return}
+                geofire.setLocation(location, forKey: uid) { (error) in
+                    self.uploadUserDAtaAndShowHomeController(uid: uid, values: values)
+                }
+            }
+        
+            self.uploadUserDAtaAndShowHomeController(uid: uid, values: values)
         }
     }
     
@@ -128,6 +136,15 @@ class SignUpController:UIViewController {
     }
     
     //MARK: - Helper Functions
+    
+    func uploadUserDAtaAndShowHomeController(uid: String, values: [String:Any] ) {
+        //위에 child(uid)를 child("uid") 라고 해서 firebase uid에 값이 안들어갔었음
+        REF_USERS.child(uid).updateChildValues(values, withCompletionBlock: { (error, ref) in
+        guard let controller = UIApplication.shared.keyWindow?.rootViewController as? HomeController else { return }
+        controller.configureUI()
+        self.dismiss(animated: true) { print("Succesfully logged user in...") }
+        })
+    }
     
     func configure() {
         

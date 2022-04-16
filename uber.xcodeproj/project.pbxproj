@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		964C88532806AB6C00B94AEC /* LocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964C88522806AB6C00B94AEC /* LocationCell.swift */; };
+		96B87758280A7FBD0058489C /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B87757280A7FBD0058489C /* User.swift */; };
+		96B8775B280A88A80058489C /* GeoFire in Frameworks */ = {isa = PBXBuildFile; productRef = 96B8775A280A88A80058489C /* GeoFire */; };
+		96B8775D280A88A80058489C /* GeoFireUtils in Frameworks */ = {isa = PBXBuildFile; productRef = 96B8775C280A88A80058489C /* GeoFireUtils */; };
+		96B8775F280A8A930058489C /* LocationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B8775E280A8A930058489C /* LocationHandler.swift */; };
 		96BD795F27FDDF9B0090CE36 /* SignUpController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BD795E27FDDF9B0090CE36 /* SignUpController.swift */; };
 		96BD796127FDF2830090CE36 /* AuthButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BD796027FDF2830090CE36 /* AuthButton.swift */; };
 		96BE7C8A27FC757D00B79ABD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BE7C8927FC757D00B79ABD /* AppDelegate.swift */; };
@@ -27,10 +31,13 @@
 		96D3518827FFD55B0089AA90 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D3518727FFD55B0089AA90 /* HomeController.swift */; };
 		96DA1B4C2801C41A008776CD /* LocationInputActivationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DA1B4B2801C41A008776CD /* LocationInputActivationView.swift */; };
 		96DA1B4E2801D1D6008776CD /* LocationInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DA1B4D2801D1D6008776CD /* LocationInputView.swift */; };
+		96EF68B02809D05700B74410 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EF68AF2809D05600B74410 /* Service.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		964C88522806AB6C00B94AEC /* LocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
+		96B87757280A7FBD0058489C /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		96B8775E280A8A930058489C /* LocationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationHandler.swift; sourceTree = "<group>"; };
 		96BD795E27FDDF9B0090CE36 /* SignUpController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpController.swift; sourceTree = "<group>"; };
 		96BD796027FDF2830090CE36 /* AuthButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthButton.swift; sourceTree = "<group>"; };
 		96BE7C8627FC757D00B79ABD /* uber.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = uber.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -46,6 +53,7 @@
 		96D3518727FFD55B0089AA90 /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		96DA1B4B2801C41A008776CD /* LocationInputActivationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInputActivationView.swift; sourceTree = "<group>"; };
 		96DA1B4D2801D1D6008776CD /* LocationInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInputView.swift; sourceTree = "<group>"; };
+		96EF68AF2809D05600B74410 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,11 +61,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96B8775B280A88A80058489C /* GeoFire in Frameworks */,
 				96C90D1527FF29240001607C /* FirebaseAnalytics in Frameworks */,
 				96C90D1927FF29240001607C /* FirebaseAuthCombine-Community in Frameworks */,
 				96C90D1B27FF29240001607C /* FirebaseDatabase in Frameworks */,
 				96C90D1727FF29240001607C /* FirebaseAuth in Frameworks */,
 				96C90D1D27FF29240001607C /* FirebaseInstallations in Frameworks */,
+				96B8775D280A88A80058489C /* GeoFireUtils in Frameworks */,
 				96C90D1F27FF29240001607C /* FirebaseStorage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -104,6 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				96BE7CA627FC7E4900B79ABD /* Extensions.swift */,
+				96B8775E280A8A930058489C /* LocationHandler.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -111,6 +122,7 @@
 		96BE7C9E27FC759100B79ABD /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				96EF68AF2809D05600B74410 /* Service.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -139,6 +151,7 @@
 		96BE7CA127FC759800B79ABD /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				96B87757280A7FBD0058489C /* User.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -166,6 +179,8 @@
 				96C90D1A27FF29240001607C /* FirebaseDatabase */,
 				96C90D1C27FF29240001607C /* FirebaseInstallations */,
 				96C90D1E27FF29240001607C /* FirebaseStorage */,
+				96B8775A280A88A80058489C /* GeoFire */,
+				96B8775C280A88A80058489C /* GeoFireUtils */,
 			);
 			productName = uber;
 			productReference = 96BE7C8627FC757D00B79ABD /* uber.app */;
@@ -197,6 +212,7 @@
 			mainGroup = 96BE7C7D27FC757D00B79ABD;
 			packageReferences = (
 				96C90D1327FF29240001607C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				96B87759280A88A80058489C /* XCRemoteSwiftPackageReference "geofire-objc" */,
 			);
 			productRefGroup = 96BE7C8727FC757D00B79ABD /* Products */;
 			projectDirPath = "";
@@ -233,7 +249,10 @@
 				96BE7CA327FC75BD00B79ABD /* LoginController.swift in Sources */,
 				964C88532806AB6C00B94AEC /* LocationCell.swift in Sources */,
 				96BE7C8A27FC757D00B79ABD /* AppDelegate.swift in Sources */,
+				96B8775F280A8A930058489C /* LocationHandler.swift in Sources */,
 				96BE7C8C27FC757D00B79ABD /* SceneDelegate.swift in Sources */,
+				96B87758280A7FBD0058489C /* User.swift in Sources */,
+				96EF68B02809D05700B74410 /* Service.swift in Sources */,
 				96DA1B4C2801C41A008776CD /* LocationInputActivationView.swift in Sources */,
 				96BE7CA727FC7E4900B79ABD /* Extensions.swift in Sources */,
 			);
@@ -449,6 +468,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		96B87759280A88A80058489C /* XCRemoteSwiftPackageReference "geofire-objc" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/geofire-objc.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		96C90D1327FF29240001607C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -460,6 +487,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		96B8775A280A88A80058489C /* GeoFire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 96B87759280A88A80058489C /* XCRemoteSwiftPackageReference "geofire-objc" */;
+			productName = GeoFire;
+		};
+		96B8775C280A88A80058489C /* GeoFireUtils */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 96B87759280A88A80058489C /* XCRemoteSwiftPackageReference "geofire-objc" */;
+			productName = GeoFireUtils;
+		};
 		96C90D1427FF29240001607C /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 96C90D1327FF29240001607C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
