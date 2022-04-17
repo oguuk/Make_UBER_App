@@ -6,6 +6,8 @@
 //
 
 import Firebase
+import CoreLocation
+import GeoFire
 
 let DB_REF = Database.database().reference()
 let REF_USERS = DB_REF.child("users")
@@ -15,18 +17,30 @@ struct Service{
     
     static let shared = Service()
     
-    func fetchUserData(completion: @escaping(User) -> Void){
+    func fetchUserData(uid: String, completion: @escaping(User) -> Void){
         //observeSingleEvnet는 한 번 로드된 후 자주 변경되지 않거나 능동적으로 수신 대기할 필요가 없는 데이터에 유용합니다
-        guard let currentUid = Auth.auth().currentUser?.uid else {return}
-        REF_USERS.child(currentUid).observeSingleEvent(of: .value) { (snapshot) in
+        REF_USERS.child(uid).observeSingleEvent(of: .value) { (snapshot) in
             guard let dictionary = snapshot.value as? [String: Any] else {return}
-            let user = User(dictionary: dictionary)
-            
-            print("DEBUG: \(user.email)")
+            let uid = snapshot.key
+            let user = User(uid: uid, dictionary: dictionary)
             completion(user)
         }
     }
     
-    
+    func fetchDriver(location: CLLocation,completion: @escaping(User) -> Void) {
+        let geofire = GeoFire(firebaseRef: REF_DRIVER_LOCATIONS)
+        
+        REF_DRIVER_LOCATIONS.observe(.value) { (snapshot) in
+            geofire.query(at: location, withRadius: 50).observe(.keyEntered, with: {(uid, location) in
+                self.fetchUserData(uid: uid) { (user) in
+                    var driver = user
+                    driver.location = location
+                    completion(driver)
+                }
+            })
+            
+        }
+        
+    }
 }
 
