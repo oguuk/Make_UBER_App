@@ -11,7 +11,8 @@ import MapKit
 import CoreLocation
 import SwiftUI
 
- private let reuseIdentifier = "LocationCell"
+private let reuseIdentifier = "LocationCell"
+private let annotationIdentifier = "DriverAnnotation"
 
 class HomeController: UIViewController {
     //MARK: - Properties
@@ -21,6 +22,7 @@ class HomeController: UIViewController {
     private let inputActivationView = LocationInputActivationView()
     private let locationInputView = LocationInputView()
     private let tableView = UITableView()
+    private var seachResults = [MKPlacemark]()
     
     private var user: User? {
         didSet { locationInputView.user = user }
@@ -33,8 +35,7 @@ class HomeController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         checkIfUserIsLoggedIn()
-        fetchUserData()
-        fetchDrivers()
+        enableLocationServices(locationManager!)
         
     }
     //MARK: = API
@@ -52,15 +53,32 @@ class HomeController: UIViewController {
             guard let coordinate = driver.location?.coordinate else { return }
             let annotation = DriverAnnotation(uid: driver.uid, coordinate: coordinate)
             
-            self.mapView.addAnnotation(annotation)
+            var driverIsVisible: Bool {
+                return self.mapView.annotations.contains{ (annotation) -> Bool in
+                    guard let driverAnno = annotation as? DriverAnnotation else { return false}
+                    if driverAnno.uid == driver.uid {
+                        driverAnno.updateAnnotationPosition(withCoordinate: coordinate)
+                        return true
+                    }
+                    return false
+                }
+            }
+            
+            if !driverIsVisible {
+                self.mapView.addAnnotation(annotation)
+            }
         }
     }
     
     func checkIfUserIsLoggedIn() {
         if Auth.auth().currentUser?.uid == nil {
+            DispatchQueue.main.async {
+                let nav = UINavigationController(rootViewController: LoginController())
+                nav.modalPresentationStyle = .fullScreen
+                self.present(nav, animated: true)
+            }
         } else {
-            configureUI()
-            enableLocationServices(locationManager!)
+            configure()
         }
     }
 
@@ -77,7 +95,11 @@ class HomeController: UIViewController {
         }
     }
     // MARK: - Helper Functions
-    
+    func configure() {
+        configureUI()
+        fetchUserData()
+        fetchDrivers()
+    }
     
     func configureUI() {
         configureMapView()
@@ -101,6 +123,7 @@ class HomeController: UIViewController {
         
         mapView.showsUserLocation = true
         mapView.userTrackingMode = .follow
+        mapView.delegate = self //MKMapViewDelegate 프로토콜을 받지 않아서다.
     }
     
     func configureLocationInputView() {
@@ -128,6 +151,41 @@ class HomeController: UIViewController {
         tableView.frame = CGRect(x: 0, y: view.frame.height, width: view.frame.width, height: height)
         
         view.addSubview(tableView)
+    }
+}
+
+//MARK: - Map Helper Functions
+private extension HomeController {
+    func searchBy(naturalLanguageQuery: String, completion: @escaping([MKPlacemark]) -> Void) {
+        var results = [MKPlacemark]()
+        
+        let request = MKLocalSearch.Request() // 매우 좋은 기능임. 내 주변의 정보들을 알려줌
+        request.region = mapView.region
+        request.naturalLanguageQuery = naturalLanguageQuery
+        
+        let search = MKLocalSearch(request: request)
+        search.start { (response, error) in
+            guard let response = response else { return }
+            
+            response.mapItems.forEach { item in
+                results.append(item.placemark)
+            }
+            
+            completion(results)
+        }
+    }
+}
+
+//MARK: - MKMapViewDelegate
+extension HomeController: MKMapViewDelegate{
+    //Returns the view associated with the specified annotation object
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if let annotation = annotation as? DriverAnnotation {
+            let view = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
+            view.image = UIImage(named: "chevron-sign-to-right")
+            return view
+        }
+        return nil
     }
 }
 
@@ -175,6 +233,13 @@ extension HomeController: LocationInputActivationViewDelegate {
 //MARK: - LocationInputViewDelegate
 
 extension HomeController:LocationInputViewDelegate {
+    func executeSearch(query: String) {
+        searchBy(naturalLanguageQuery: query) { results in
+            self.seachResults = results
+            self.tableView.reloadData()
+        }
+    }
+    
     func dismissLocationInputView() {
         UIView.animate(withDuration: 0.3, animations: {
             self.locationInputView.alpha = 0
@@ -200,13 +265,20 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? 2 : 5
+        return section == 0 ? 2 : seachResults.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! LocationCell
-        
+        if indexPath.section == 1 {
+            cell.placemark = seachResults[indexPath.row]
+        }
         return cell
+    }
+    
+    //didSelectRow cell이 눌리면 실행되는 것
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("\(indexPath.row)")
     }
     
     

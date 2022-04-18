@@ -20,6 +20,7 @@ struct Service{
     func fetchUserData(uid: String, completion: @escaping(User) -> Void){
         //observeSingleEvnet는 한 번 로드된 후 자주 변경되지 않거나 능동적으로 수신 대기할 필요가 없는 데이터에 유용합니다
         REF_USERS.child(uid).observeSingleEvent(of: .value) { (snapshot) in
+                //observeSingleEvent: fetch just one time 한번 실행이므로 계속 observe할 필요 없음
             guard let dictionary = snapshot.value as? [String: Any] else {return}
             let uid = snapshot.key
             let user = User(uid: uid, dictionary: dictionary)
@@ -32,6 +33,7 @@ struct Service{
         
         REF_DRIVER_LOCATIONS.observe(.value) { (snapshot) in
             geofire.query(at: location, withRadius: 50).observe(.keyEntered, with: {(uid, location) in
+                //observe: listen for changes firebas realtimedata
                 self.fetchUserData(uid: uid) { (user) in
                     var driver = user
                     driver.location = location
@@ -42,5 +44,6 @@ struct Service{
         }
         
     }
+    
 }
 

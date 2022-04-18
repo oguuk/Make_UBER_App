@@ -141,7 +141,7 @@ class SignUpController:UIViewController {
         //위에 child(uid)를 child("uid") 라고 해서 firebase uid에 값이 안들어갔었음
         REF_USERS.child(uid).updateChildValues(values, withCompletionBlock: { (error, ref) in
         guard let controller = UIApplication.shared.keyWindow?.rootViewController as? HomeController else { return }
-        controller.configureUI()
+        controller.configure()
         self.dismiss(animated: true) { print("Succesfully logged user in...") }
         })
     }

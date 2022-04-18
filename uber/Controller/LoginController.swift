@@ -83,7 +83,7 @@ class LoginController: UIViewController {
             
             //로그인 성공하면 App의 rootViewController를 가져오고 HomeController로 cast된 후 controller.configure() 실행
             guard let controller = UIApplication.shared.keyWindow?.rootViewController as? HomeController else { return }
-            controller.configureUI()
+            controller.configure()
             self.dismiss(animated: true) { print("Succesfully logged user in...") }
         }
     }
