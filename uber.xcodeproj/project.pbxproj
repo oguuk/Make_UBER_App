@@ -22,6 +22,7 @@
 		96BE7CA327FC75BD00B79ABD /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BE7CA227FC75BD00B79ABD /* LoginController.swift */; };
 		96BE7CA527FC79D600B79ABD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 96BE7CA427FC79D600B79ABD /* Main.storyboard */; };
 		96BE7CA727FC7E4900B79ABD /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BE7CA627FC7E4900B79ABD /* Extensions.swift */; };
+		96C81898282112FE005B8973 /* RideActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C81897282112FE005B8973 /* RideActionView.swift */; };
 		96C90D1227FF27530001607C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 96C90D1127FF27530001607C /* GoogleService-Info.plist */; };
 		96C90D1527FF29240001607C /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 96C90D1427FF29240001607C /* FirebaseAnalytics */; };
 		96C90D1727FF29240001607C /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 96C90D1627FF29240001607C /* FirebaseAuth */; };
@@ -51,6 +52,7 @@
 		96BE7CA227FC75BD00B79ABD /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		96BE7CA427FC79D600B79ABD /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		96BE7CA627FC7E4900B79ABD /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		96C81897282112FE005B8973 /* RideActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideActionView.swift; sourceTree = "<group>"; };
 		96C90D1127FF27530001607C /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		96D3518727FFD55B0089AA90 /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		96DA1B4B2801C41A008776CD /* LocationInputActivationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInputActivationView.swift; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 				96DA1B4B2801C41A008776CD /* LocationInputActivationView.swift */,
 				96DA1B4D2801D1D6008776CD /* LocationInputView.swift */,
 				964C88522806AB6C00B94AEC /* LocationCell.swift */,
+				96C81897282112FE005B8973 /* RideActionView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -255,6 +258,7 @@
 				96BE7C8A27FC757D00B79ABD /* AppDelegate.swift in Sources */,
 				96B8775F280A8A930058489C /* LocationHandler.swift in Sources */,
 				96BE7C8C27FC757D00B79ABD /* SceneDelegate.swift in Sources */,
+				96C81898282112FE005B8973 /* RideActionView.swift in Sources */,
 				96B87758280A7FBD0058489C /* User.swift in Sources */,
 				96EF68B02809D05700B74410 /* Service.swift in Sources */,
 				96DA1B4C2801C41A008776CD /* LocationInputActivationView.swift in Sources */,
