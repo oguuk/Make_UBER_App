@@ -6,15 +6,22 @@
 //
 
 import UIKit
+import MapKit
 
 class RideActionView: UIView {
 
     //MARK: - Properties
+    var destination: MKPlacemark?{
+        didSet{
+            titleLabel.text = destination?.name
+            addressLable.text = destination?.address
+        }
+    }
     
     let titleLabel:UILabel = {
        let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16)
-        label.text = "Test Address Title"
+        label.textAlignment = .center
         return label
     }()
     
@@ -22,7 +29,7 @@ class RideActionView: UIView {
         let label = UILabel()
         label.textColor = .lightGray
         label.font = UIFont.systemFont(ofSize: 16)
-        label.text = "123 M St, NW Washington DC"
+        label.textAlignment = .center
         return label
     }()
     
