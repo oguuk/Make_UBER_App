@@ -87,6 +87,7 @@ class HomeController: UIViewController {
     }
     
     func fetchDrivers() {
+        guard user?.accountType == .passenger else {return}
         guard let location = locationManager?.location else { return }
         Service.shared.fetchDriver(location: location) { driver in
             guard let coordinate = driver.location?.coordinate else { return }
@@ -110,6 +111,7 @@ class HomeController: UIViewController {
     }
     
     func checkIfUserIsLoggedIn() {
+
         if Auth.auth().currentUser?.uid == nil {
             DispatchQueue.main.async {
                 let nav = UINavigationController(rootViewController: LoginController())
@@ -117,6 +119,7 @@ class HomeController: UIViewController {
                 self.present(nav, animated: true)
             }
         } else {
+
             configure()
         }
     }
@@ -197,6 +200,7 @@ class HomeController: UIViewController {
     
     func configureRideActionView() {
         view.addSubview(rideActionView)
+        rideActionView.delegate = self
         rideActionView.frame = CGRect(x: 0, y: view.frame.height, width: view.frame.width, height: rideActionViewHeight)
     }
     
@@ -412,6 +416,17 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource {
             
             self.animateRideActionView(shouldShow: true, destination: selectedPlacemark)
 
+        }
+    }
+}
+
+extension HomeController: RideActionViewDelegate{
+    func uploadTrip(_ view: RideActionView) {
+        guard let pickupCoordinates = locationManager?.location?.coordinate else {return}
+        guard let destinationCorrdinates = view.destination?.coordinate else {return}
+        
+        Service.shared.uploadTrip(pickupCoordinates, destinationCorrdinates) { (error, ref) in
+            
         }
     }
 }
