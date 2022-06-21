@@ -52,11 +52,31 @@ struct Service{
         let pickupArray = [pickupCoordinates.latitude, pickupCoordinates.longitude]
         let desinationArray = [destinationCoordinates.latitude, destinationCoordinates.longitude]
         
-        let values = ["PickupCoordinates": pickupArray,
+        let values = ["pickupCoordinates": pickupArray,
                       "destinationCoordinates": desinationArray,
                       "state": TripState.requested.rawValue] as [String:Any]
         
         REF_TRIPS.child(uid).updateChildValues(values,withCompletionBlock: completion)
+    }
+    
+    func observeTrips(completion: @escaping(Trip) -> Void) {
+        //completion으로 Trip을 fetch 했다면 Homecontroller의 observeTrips에서 trip에 접근한다.
+        REF_TRIPS.observe(.childAdded) { (snapshot) in
+            guard let dictionary = snapshot.value as? [String:Any] else {return}
+            
+            let uid = snapshot.key
+            let trip = Trip(passengerUid: uid, dictionary: dictionary)
+            
+            completion(trip)
+        }
+    }
+    
+    func acceptTrip(trip: Trip, completion: @escaping (Error?,DatabaseReference) -> Void) {
+        guard let uid = Auth.auth().currentUser?.uid else {return}
+        let values = ["driverUid": uid,
+                      "state": TripState.accepted.rawValue] as [String : Any]
+        
+        REF_TRIPS.child(trip.passengerUid).updateChildValues(values, withCompletionBlock: completion)
     }
 }
 

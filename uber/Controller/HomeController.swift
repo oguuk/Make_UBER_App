@@ -39,7 +39,29 @@ class HomeController: UIViewController {
     private var route:MKRoute?
     
     private var user: User? {
-        didSet { locationInputView.user = user }
+        didSet {
+            //승객 파트
+            locationInputView.user = user
+            if user?.accountType == .passenger{
+                fetchDrivers()
+                configureLocationInputActivationView()
+            } else {
+                //운전자 파트
+                observeTrips()
+            }
+        }
+    }
+    
+    private var trip: Trip? {
+        didSet{
+            guard let trip = trip else {return}
+
+            let controller = PickupController(trip: trip)
+            controller.delegate = self
+            controller.modalPresentationStyle = .fullScreen
+            self.present(controller,animated: true, completion: nil)
+ 
+        }
     }
     
     private let actionButton: UIButton = {
@@ -55,6 +77,13 @@ class HomeController: UIViewController {
         super.viewDidLoad()
         checkIfUserIsLoggedIn()
         enableLocationServices(locationManager!)
+        //signOut()
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        guard let trip = trip else {return}
         
     }
     
@@ -87,7 +116,6 @@ class HomeController: UIViewController {
     }
     
     func fetchDrivers() {
-        guard user?.accountType == .passenger else {return}
         guard let location = locationManager?.location else { return }
         Service.shared.fetchDriver(location: location) { driver in
             guard let coordinate = driver.location?.coordinate else { return }
@@ -110,8 +138,14 @@ class HomeController: UIViewController {
         }
     }
     
+    func observeTrips() {
+        Service.shared.observeTrips { trip in
+            self.trip = trip
+        }
+    }
+    
     func checkIfUserIsLoggedIn() {
-
+        
         if Auth.auth().currentUser?.uid == nil {
             DispatchQueue.main.async {
                 let nav = UINavigationController(rootViewController: LoginController())
@@ -119,7 +153,7 @@ class HomeController: UIViewController {
                 self.present(nav, animated: true)
             }
         } else {
-
+            
             configure()
         }
     }
@@ -140,7 +174,6 @@ class HomeController: UIViewController {
     func configure() {
         configureUI()
         fetchUserData()
-        fetchDrivers()
     }
     
     fileprivate func configureActionButton(config: ActionButtonConfiguration) {
@@ -160,6 +193,13 @@ class HomeController: UIViewController {
         
         view.addSubview(actionButton)
         actionButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor,paddingTop: 16, paddingLeft: 20, width: 30, height: 30)
+
+        configureTableView()
+    }
+    
+    func configureLocationInputActivationView(){
+        guard let user = user else {return}
+        guard user.accountType == .passenger else {return}
         
         view.addSubview(inputActivationView)
         inputActivationView.centerX(inView: view)
@@ -171,8 +211,6 @@ class HomeController: UIViewController {
         UIView.animate(withDuration: 2) {
             self.inputActivationView.alpha = 1
         }
-        
-        configureTableView()
     }
     
     func configureMapView() {
@@ -367,7 +405,7 @@ extension HomeController:LocationInputViewDelegate {
     func dismissLocationInputView() {
         dismissLocationView { _ in
             UIView.animate(withDuration: 0.3, animations: {self.inputActivationView.alpha = 1 })
-
+            
         }
     }
     
@@ -415,10 +453,12 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource {
             self.mapView.zoomToFit(annotations: annotations)
             
             self.animateRideActionView(shouldShow: true, destination: selectedPlacemark)
-
+            
         }
     }
 }
+
+//MARK: -RideActionViewDelegate
 
 extension HomeController: RideActionViewDelegate{
     func uploadTrip(_ view: RideActionView) {
@@ -428,5 +468,13 @@ extension HomeController: RideActionViewDelegate{
         Service.shared.uploadTrip(pickupCoordinates, destinationCorrdinates) { (error, ref) in
             
         }
+    }
+}
+//MARK: -PickupControllerDelegate
+
+extension HomeController: PickupControllerDelegate {
+    func didAcceptTrip(_ trip: Trip) {
+        self.trip?.state = .accepted
+        self.dismiss(animated: true, completion: nil)
     }
 }
