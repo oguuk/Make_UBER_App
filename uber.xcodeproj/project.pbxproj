@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		960D41DD2860B58900055E07 /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960D41DC2860B58900055E07 /* Trip.swift */; };
+		9613B4732865D44000D5BE69 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9613B4722865D44000D5BE69 /* GoogleService-Info.plist */; };
 		964C88532806AB6C00B94AEC /* LocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964C88522806AB6C00B94AEC /* LocationCell.swift */; };
 		9699DF772861A79300785CF0 /* PickupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9699DF762861A79300785CF0 /* PickupController.swift */; };
 		96B87758280A7FBD0058489C /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B87757280A7FBD0058489C /* User.swift */; };
@@ -25,7 +26,6 @@
 		96BE7CA527FC79D600B79ABD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 96BE7CA427FC79D600B79ABD /* Main.storyboard */; };
 		96BE7CA727FC7E4900B79ABD /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BE7CA627FC7E4900B79ABD /* Extensions.swift */; };
 		96C81898282112FE005B8973 /* RideActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C81897282112FE005B8973 /* RideActionView.swift */; };
-		96C90D1227FF27530001607C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 96C90D1127FF27530001607C /* GoogleService-Info.plist */; };
 		96C90D1527FF29240001607C /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 96C90D1427FF29240001607C /* FirebaseAnalytics */; };
 		96C90D1727FF29240001607C /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 96C90D1627FF29240001607C /* FirebaseAuth */; };
 		96C90D1927FF29240001607C /* FirebaseAuthCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 96C90D1827FF29240001607C /* FirebaseAuthCombine-Community */; };
@@ -40,6 +40,7 @@
 
 /* Begin PBXFileReference section */
 		960D41DC2860B58900055E07 /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
+		9613B4722865D44000D5BE69 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		964C88522806AB6C00B94AEC /* LocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
 		9699DF762861A79300785CF0 /* PickupController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickupController.swift; sourceTree = "<group>"; };
 		96B87757280A7FBD0058489C /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -57,7 +58,6 @@
 		96BE7CA427FC79D600B79ABD /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		96BE7CA627FC7E4900B79ABD /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		96C81897282112FE005B8973 /* RideActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideActionView.swift; sourceTree = "<group>"; };
-		96C90D1127FF27530001607C /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		96D3518727FFD55B0089AA90 /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		96DA1B4B2801C41A008776CD /* LocationInputActivationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInputActivationView.swift; sourceTree = "<group>"; };
 		96DA1B4D2801D1D6008776CD /* LocationInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInputView.swift; sourceTree = "<group>"; };
@@ -112,8 +112,8 @@
 				96BE7CA427FC79D600B79ABD /* Main.storyboard */,
 				96BE7C9227FC757F00B79ABD /* Assets.xcassets */,
 				96BE7C9427FC757F00B79ABD /* LaunchScreen.storyboard */,
+				9613B4722865D44000D5BE69 /* GoogleService-Info.plist */,
 				96BE7C9727FC757F00B79ABD /* Info.plist */,
-				96C90D1127FF27530001607C /* GoogleService-Info.plist */,
 			);
 			path = uber;
 			sourceTree = "<group>";
@@ -241,7 +241,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				96BE7CA527FC79D600B79ABD /* Main.storyboard in Resources */,
-				96C90D1227FF27530001607C /* GoogleService-Info.plist in Resources */,
+				9613B4732865D44000D5BE69 /* GoogleService-Info.plist in Resources */,
 				96BE7C9627FC757F00B79ABD /* LaunchScreen.storyboard in Resources */,
 				96BE7C9327FC757F00B79ABD /* Assets.xcassets in Resources */,
 			);
