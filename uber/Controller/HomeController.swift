@@ -364,11 +364,24 @@ private extension HomeController {
                                         longitudinalMeters: 2000)
         mapView.setRegion(region, animated: true)
     }
+    
+    func setCustomRegion(withCoordinates coordinates: CLLocationCoordinate2D) {
+        let region = CLCircularRegion(center: coordinates, radius: 100, identifier: "pickup")
+        locationManager?.startMonitoring(for: region)
+    }
 }
 
 //MARK: - MKMapViewDelegate
 extension HomeController: MKMapViewDelegate{
     //Returns the view associated with the specified annotation object
+    func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
+        guard let user = self.user else {return}
+        guard user.accountType == .driver else {return}
+        guard let location = userLocation.location else {return}
+        
+        Service.shared.updateDriverLocation(location: location)
+    }
+    
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if let annotation = annotation as? DriverAnnotation {
             let view = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
@@ -390,11 +403,18 @@ extension HomeController: MKMapViewDelegate{
     }
 }
 
-//MARK: - Location Services
+//MARK: - CLLocationManagerDelegate
 extension HomeController:CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didStartMonitoringFor region: CLRegion) {
+        print("DEBUG: Did start monitoring for region \(region)")
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        print("DEBUG: Driver did enter passenger region..")
+    }
     
     func enableLocationServices(_ manager: CLLocationManager) {
-        
+        locationManager?.delegate = self
         switch manager.authorizationStatus {
         case .notDetermined:
             print("DEBUG: Not determined..")
@@ -513,6 +533,7 @@ extension HomeController: RideActionViewDelegate{
             
             self.actionButton.setImage(UIImage(imageLiteralResourceName: "baseline_menu_black_36dp").withRenderingMode(.alwaysOriginal), for: .normal)
             self.actionButtonConfig = .showMenu
+            self.inputActivationView.alpha = 0
         }
         
     }
@@ -538,6 +559,8 @@ extension HomeController: PickupControllerDelegate {
         anno.coordinate = trip.pickupCoordinates
         mapView.addAnnotation(anno)
         mapView.selectAnnotation(anno, animated: true)
+        
+        setCustomRegion(withCoordinates: trip.pickupCoordinates)
         
         let placemark = MKPlacemark(coordinate: trip.pickupCoordinates)
         let mapItem = MKMapItem(placemark: placemark)
