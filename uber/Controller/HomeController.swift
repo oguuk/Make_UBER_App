@@ -294,7 +294,7 @@ class HomeController: UIViewController {
         }
         
         if shouldShow {
-            guard let config = config else { return }            
+            guard let config = config else { return }
             
             if let destination = destination{
                 rideActionView.destination = destination
@@ -355,6 +355,14 @@ private extension HomeController {
         if mapView.overlays.count > 0 {
             mapView.removeOverlay(mapView.overlays[0])
         }
+    }
+    
+    func centerMapOnUserLocation() {
+        guard let coordinate = locationManager?.location?.coordinate else {return}
+        let region = MKCoordinateRegion(center: coordinate,
+                                        latitudinalMeters: 2000,
+                                        longitudinalMeters: 2000)
+        mapView.setRegion(region, animated: true)
     }
 }
 
@@ -492,6 +500,23 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource {
 //MARK: -RideActionViewDelegate
 
 extension HomeController: RideActionViewDelegate{
+    func cancelTrip() {
+        Service.shared.cancelTrip{ (error, ref) in
+            if let error = error {
+                print("DEBUG: Error deleting trip..")
+                return
+            }
+            
+            self.centerMapOnUserLocation()
+            self.animateRideActionView(shouldShow: false)
+            self.removeAnnotationsAndOverlays()
+            
+            self.actionButton.setImage(UIImage(imageLiteralResourceName: "baseline_menu_black_36dp").withRenderingMode(.alwaysOriginal), for: .normal)
+            self.actionButtonConfig = .showMenu
+        }
+        
+    }
+    
     func uploadTrip(_ view: RideActionView) {
         guard let pickupCoordinates = locationManager?.location?.coordinate else {return}
         guard let destinationCorrdinates = view.destination?.coordinate else {return}
@@ -519,6 +544,14 @@ extension HomeController: PickupControllerDelegate {
         generatePolyline(toDestination: mapItem)
         
         mapView.zoomToFit(annotations: mapView.annotations)
+        
+        Service.shared.observeTripCancelled(trip: trip) {
+            self.removeAnnotationsAndOverlays()
+            self.animateRideActionView(shouldShow: false)
+            self.centerMapOnUserLocation()
+            self.presentAlertController(withTitle: "Oops!",
+                                        message: "The passenger has decided to cancel this ride. Press Ok to continue.")
+        }
         
         self.dismiss(animated: true) {
             Service.shared.fetchUserData(uid: trip.passengerUid, completion: { passenger in
