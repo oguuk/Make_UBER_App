@@ -16,6 +16,7 @@ protocol RideActionViewDelegate: class {
 enum RideActionViewConfiguration {
     case requestRide
     case tripAccepted
+    case driverArrived
     case pickupPassenger
     case tripImProgress
     case endTrip
@@ -205,6 +206,14 @@ class RideActionView: UIView {
             
             infoViewLabel.text = String(user.fullname.first ?? "X")
             uberInfoLabel.text = user.fullname
+        case .driverArrived:
+            guard let user = user else { return }
+            
+            if user.accountType == .driver {
+                titleLabel.text = "Driver has Arrived"
+                addressLable.text = "Please meet friver at pickup location"
+                
+            }
             
         case .pickupPassenger: //driver에게만 해당하기 때문에 user check 필요없음
             titleLabel.text = "Arrived At Passenger Location"
